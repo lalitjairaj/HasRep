@@ -1,0 +1,104 @@
+﻿
+@section Scripts{
+    @Scripts.Render("~/bundles/knockout")
+<script type="text/javascript">
+	function CallService(varUrl, varData, varDataType) {
+		
+		$.ajaxSetup({ cache: false });
+		$(function() {
+			$.support.cors = true;
+			$.get(
+				varUrl, // Location of the service
+				varData, //Data sent to server
+				function(msg, status, xhr) { //On Successfull service call
+					debugger;
+					ShowMessage('Success Called');
+					$("#imgLoad").hide();
+				},
+				varDataType
+			)
+			  .done(function () {
+			  	ShowMessage("Call completed");
+			  })
+			  .fail(function (xMLHttpRequest, textStatus, errorThrown) {
+			  	ShowMessage("An Error occured while accessing the service. Please see the details below");
+					ShowMessage("Request Status : " + xMLHttpRequest.status);
+			  	if (xMLHttpRequest.status == 0) {
+			  		ShowMessage(' The service could not be located.');
+			  	} else if (xMLHttpRequest.status == 404) {
+			  		ShowMessage('Requested URL not found.');
+			  	} else if (xMLHttpRequest.status == 500) {
+			  		ShowMessage('Internel Server Error.');
+			  	} else {
+			  		ShowMessage('Unknow Error.');
+			  	}
+			  	ShowMessage("Request Status (xMLHttpRequest.statusText) : " + xMLHttpRequest.statusText);
+			  	ShowMessage("Error Name: " + errorThrown.name);
+			  	ShowMessage("Error Stack: " + errorThrown.stack);
+			  	$("#imgLoad").hide();
+				});
+
+			;
+		});
+	}
+
+	function ShowMessage(msg) {
+		if ($("#txtResults").text() != '') {
+			$("#txtResults").append("<br />");
+		}
+		$("#txtResults").append( msg);
+	}
+
+	function CheckHasService() {
+		$("#txtResults").empty();
+		$("#imgLoad").show();
+		ShowMessage("checking HAS service access");
+		var varUrl = "https://localhost:" + $("#txtPortNumber").val() + "/api/DownloadKey/ServiceStatus";
+		ShowMessage("Requesting Url : " + varUrl);
+		var varData = { varData: "HardwareTrayApp", sVersion: '0', Token: '' };
+		var varDataType = "json";
+		ShowMessage("calling Service");
+		CallService(varUrl, varData, varDataType);
+		return false;
+	}
+
+	$(function() {
+		$("#imgLoad").hide();
+		$("#btnCheckHAS").bind("click", function () { CheckHasService(); });
+
+	});
+	
+	</script>
+	}
+
+
+
+
+<div class=" row col-lg-10 col-lg-offset-2">
+	<form id="form1" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<label for="txtPortNumber" class="col-sm-2 control-label text-right">Port Number</label>
+				<input type="number" class="form-control col-sm-8" id="txtPortNumber" value="55559"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="button" id="btnCheckHAS" name="btnCheckHAS" value="Check HAS Service" class="btn btn-primary col-sm-offset-2"/>
+				<img src="../../Content/loader.gif" id="imgLoad" name="imgLoad" />
+			</div>
+		</div>
+
+
+
+
+
+
+
+	</form>
+</div>
+<div class="row">
+	<div id="txtResults" name="txtResults" class="col-lg-10 col-lg-offset-4" style="border: 1px solid #cccccc; width: 50%">Results will Show up Here</div>	
+</div>
+
+<br/>
