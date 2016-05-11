@@ -61,4 +61,3 @@ D:\lalit jairaj\Projects\HASTest\HASTest\bin\System.Web.WebPages.Razor.xml
 D:\lalit jairaj\Projects\HASTest\HASTest\obj\Release\HASTest.csprojResolveAssemblyReference.cache
 D:\lalit jairaj\Projects\HASTest\HASTest\obj\Release\HASTest.dll
 D:\lalit jairaj\Projects\HASTest\HASTest\obj\Release\HASTest.pdb
-C:\Users\a615569\Documents\GitHub\HasRep\HASTest\HASTest\obj\Release\HASTest.csprojResolveAssemblyReference.cache
